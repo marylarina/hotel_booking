@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>База данных</title>
+  <style>
+        body {
+            background-color: #212122;
+        }
+        a {
+            color: white;
+            font-family: 'Arial', 'Verdana', sans-serif;
+        }
+        p {
+            padding: 10px;
+            outline: 2px solid #000;
+            border: 5px solid #687495;
+            border-radius: 12px;
+        }
+        table {
+	width: 70%;
+	margin-bottom: 20px;
+	border: 1px solid white;
+	border-collapse: collapse;
+}
+table th {
+	font-weight: bold;
+	padding: 5px;
+	background: #687495;
+	border: 1px solid white;
+}
+table td {
+	border: 1px solid white;
+	padding: 5px;
+}
+.btn {
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0 25px;
+	margin: 0 15px 15px 0;
+	outline: none;
+	border: 1px solid #fff;
+	border-radius: 50px;
+	height: 46px;
+	line-height: 46px;
+	font-size: 14px;
+	font-weight: 600;
+	text-decoration: none;
+	color: white;
+	background-color: #008000;
+	box-shadow: 0 4px 6px rgb(65 132 144 / 10%), 0 1px 3px rgb(0 0 0 / 8%);
+	cursor: pointer;
+	user-select: none;
+	appearance: none;
+	touch-action: manipulation;
+	vertical-align: top;
+	transition: box-shadow 0.2s;
+}
+.btn:focus-visible {
+	border: 1px solid #4c51f9;
+	outline: none;
+}
+.btn:hover {
+	transition: all 0.2s;
+	box-shadow: 0 7px 14px rgb(65 132 144 / 10%), 0 3px 6px rgb(0 0 0 / 8%);
+}
+.btn:active {
+	background-color: #808080;
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+li {
+  display: inline;
+}
+
+li a {
+  border: 1px solid #fff;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-family: 'Arial', 'Verdana', sans-serif
+}
+.active-bar {
+    background-color: #4B0082;
+}
+    </style>
+</head>
+<body>
+<h1 align="center" style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Tаблицa {{name}}</h1>
+<h2 style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Количество записей: {{row_count}}</h2>
+{% if name == 'employee' %}
+<h2 style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Максимальная зарплата: {{max_salary_output}}</h2>
+{% endif %}
+{% if name == 'client' or name == 'employee' or name == 'room_service' %}
+<h3><a href = "/main/{{name}}/add_render" class="btn">Добавить запись</a></h3>
+{% endif %}
+{% if name == 'booking' %}
+<h3><a href = "/main/booking/add_booking_render" class="btn">Добавить запись</a></h3>
+{% endif %}
+{% if name == 'booking' %}
+<nav>
+    {% if sort == 1 %}
+    <li> <a class="active-bar" href="/main/{{name}}">По дате бронирования </a></li>
+    {% else %}
+    <li> <a href="/main/{{name}}">По дате бронирования </a></li>
+    {% endif %}
+    {% if sort == 2 %}
+    <li> <a class="active-bar" href="/main/booking_arrival"> По дате заезда </a></li>
+    {% else %}
+    <li> <a href="/main/booking_arrival"> По дате заезда </a></li>
+    {% endif %}
+    {% if sort == 3 %}
+    <li> <a class="active-bar" href="/main/booking_departure"> По дате выезда </a></li>
+    {% else %}
+    <li> <a href="/main/booking_departure"> По дате выезда </a></li>
+    {% endif %}
+</nav>
+<br>
+{% endif %}
+{% if name == 'employee' %}
+<nav>
+    {% if sort == 1 %}
+    <li> <a class="active-bar" href="/main/{{name}}"> Все </a></li>
+    {% else %}
+    <li> <a href="/main/{{name}}"> Все </a></li>
+    {% endif %}
+    {% if sort == 'Техник' %}
+    <li> <a class="active-bar" href="/main/employee_type/Техник"> Техник </a></li>
+    {% else %}
+    <li> <a href="/main/employee_type/Техник"> Техник </a></li>
+    {% endif %}
+    {% if sort == 'Горничная' %}
+    <li> <a class="active-bar" href="/main/employee_type/Горничная"> Горничная </a></li>
+    {% else %}
+    <li> <a href="/main/employee_type/Горничная"> Горничная </a></li>
+    {% endif %}
+    {% if sort == 'Носильщик' %}
+    <li> <a class="active-bar" href="/main/employee_type/Носильщик"> Носильщик </a></li>
+    {% else %}
+    <li> <a href="/main/employee_type/Носильщик"> Носильщик </a></li>
+    {% endif %}
+</nav>
+<br>
+{% endif %}
+{% if name == 'client' %}
+<nav>
+    {% if sort == 1 %}
+    <li> <a class="active-bar" href="/main/{{name}}"> По id </a></li>
+    {% else %}
+    <li> <a href="/main/{{name}}"> По id </a></li>
+    {% endif %}
+    {% if sort == 4 %}
+    <li> <a class="active-bar" href="/main/order_name"> По имени </a></li>
+    {% else %}
+    <li> <a href="/main/order_name"> По имени </a></li>
+    {% endif %}
+    {% if sort == 5 %}
+    <li> <a class="active-bar" href="/main/order_surname"> По фамилии </a></li>
+    {% else %}
+    <li> <a href="/main/order_surname"> По фамилии </a></li>
+    {% endif %}
+</nav>
+<br>
+{% endif %}
+{% if row_count > 10 %}
+<br>
+{{ pagination.links }}
+<br>
+{% endif %}
+<table class="table table-bordered" style = "border: white; border-collapse: collapse;">
+        <thead>
+        <tr class="table-info" style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">
+            {% for column_name in column_names %}
+            <th>{{ column_name }}</th>
+            {% endfor %}
+            {% if name == 'booking' %}
+            <th>Итоговая цена</th>
+            {% endif %}
+            {% if name != 'booking_list' and name != 'room' %}
+            <th>Редактирование</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in database %}
+        <tr>
+            {% for i in range(row|length) %}
+            <td style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">{{ row[i] }}</td>
+            {% endfor %}
+            {% if name == 'booking' %}
+            <td style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">{{ booking_price[database.index(row)][1] * booking_days[database.index(row)][1] }}</td>
+            {% endif %}
+            {% if name != 'booking_list' and name != 'room' %}
+            <td width="130">
+                {% if name == 'client' or name == 'employee' %}
+              <a href="/main/{{name}}/edit/{{row[0]}}" class="btn">Редактировать</a>
+                {% endif %}
+                {% if name == 'client' or name == 'employee' or name == 'booking' %}
+              <a href="/main/{{name}}/delete/{{row[0]}}" class="btn" style="background-color: #FF0000">Удалить</a>
+                {% endif %}
+                {% if name == 'room_service' %}
+                <a href="/main/{{name}}/delete/{{row[0]}}/{{row[1]}}" class="btn" style="background-color: #FF0000">Удалить</a>
+                {% endif %}
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% if row_count > 10 %}
+<br>
+{{ pagination.links }}
+<br>
+{% endif %}
+<h3 align = "center"><a href = "/main" class="btn" style="background-color: #687495">Вернуться к выбору таблицы</a></h3>
+<h3 align = "center"><a href = "/" class="btn" style="background-color: #687495">Вернуться на главную страницу</a></h3>
+</body>
+</html>

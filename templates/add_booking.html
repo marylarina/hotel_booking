@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add booking</title>
+    <style>
+        body {
+            background-color: #212122;
+        }
+        a {
+            color: white;
+            font-family: 'Arial', 'Verdana', sans-serif;
+        }
+        p {
+            padding: 10px;
+            outline: 2px solid #000;
+            border: 5px solid #687495;
+            border-radius: 12px;
+        }
+        .btn {
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0 25px;
+	margin: 0 15px 15px 0;
+	outline: none;
+	border: 1px solid #fff;
+	border-radius: 50px;
+	height: 46px;
+	line-height: 46px;
+	font-size: 14px;
+	font-weight: 600;
+	text-decoration: none;
+	color: white;
+	background-color: #008000;
+	box-shadow: 0 4px 6px rgb(65 132 144 / 10%), 0 1px 3px rgb(0 0 0 / 8%);
+	cursor: pointer;
+	user-select: none;
+	appearance: none;
+	touch-action: manipulation;
+	vertical-align: top;
+	transition: box-shadow 0.2s;
+}
+.btn:focus-visible {
+	border: 1px solid #4c51f9;
+	outline: none;
+}
+.btn:hover {
+	transition: all 0.2s;
+	box-shadow: 0 7px 14px rgb(65 132 144 / 10%), 0 3px 6px rgb(0 0 0 / 8%);
+}
+.btn:active {
+	background-color: #808080;
+}
+    </style>
+</head>
+<body>
+
+<h1 align="center" style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Добавление записи в таблицу booking</h1>
+
+<div class="col-md-4 offset-md-4">
+    <div class="card card-body">
+    <form action="/main/booking/add_booking" method="POST">
+        <table>
+            <tr>
+        <div id="current_date_time_block" class="form-group">
+            <td><label style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Дата бронирования: </label></td>
+            <td><input style = "color: black; font-family: 'Arial', 'Verdana', sans-serif" type="date" id="myDate" name="booking_date" placeholder="booking_date" class="form-control" readonly></td>
+        </div>
+            </tr>
+            <tr>
+        <div class="form-group">
+            <td><label style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Дата заселения: </label></td>
+            <td><input style = "color: black; font-family: 'Arial', 'Verdana', sans-serif"  type="date" id="dateArrival" name="arrival_date" placeholder="arrival_date" class="form-control"></td>
+        </div>
+            </tr>
+            <tr>
+        <div class="form-group">
+            <td><label style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Дата выселения: </label></td>
+            <td><input style = "color: black; font-family: 'Arial', 'Verdana', sans-serif" type="date" id="dateDeparture" name="departure_date" placeholder="departure_date" class="form-control"></td>
+        </div>
+            </tr>
+            <tr>
+        <div class="form-group">
+            <td><label style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Количество взрослых постояльцев: </label></td>>
+            <td><input style = "color: black; font-family: 'Arial', 'Verdana', sans-serif" type="number" name="adult_number" placeholder="adult_number" class="form-control" min="0"></td>
+        </div>
+            </tr>
+            <tr>
+        <div class="form-group">
+            <td><label style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Количество детей: </label></td>
+            <td><input style = "color: black; font-family: 'Arial', 'Verdana', sans-serif" type="number" name="children_number" placeholder="children_number" class="form-control" min="0"></td>
+        </div>
+            </tr>
+            <tr>
+        <div class="form-group">
+            <td><label style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Тип номера: </label></td>
+            <td><select name="room_type" >
+                <option value="" selected>Выберите тип номера</option>
+                {% for row in room_type %}
+                <option value="{{row[0]}}">{{row[0]}}</option>
+                {% endfor %}
+            </select></td>
+        </div>
+            </tr>
+            <tr>
+        <div class="form-group">
+            <td><label style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Клиент: </label></td>
+            <td><select name="client_id" >
+                <option value="" selected>Выберите клиента</option>>
+                {% for row in client %}
+                <option value="{{row[0]}}">{{row[1]}} {{row[2]}}</option>
+                {% endfor %}
+            </select></td>
+            <td><a href="/main/client/add_render_client" class="btn btn-outline-primary">Добавить нового клиента</a></td>
+        </div>
+            </tr>
+        </table>
+        <br>
+        <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block">
+              Добавить
+            </button>
+        </div>
+        <a href="/main/booking" class="btn btn-outline-primary" style="background-color: #687495">Вернуться</a>
+    </form>
+    </div>
+</div>
+<script type="text/javascript">
+    document.getElementById('myDate').valueAsDate = new Date();
+</script>
+<script type="text/javascript">
+    document.getElementById("dateArrival").min = new Date().toISOString().split("T")[0];
+</script>
+<script type="text/javascript">
+    document.getElementById("dateDeparture").min = new Date().toISOString().split("T")[0];
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>База данных</title>
+  <style>
+        body {
+            background-color: #212122;
+        }
+        a {
+            color: white;
+            font-family: 'Arial', 'Verdana', sans-serif;
+        }
+        p {
+            padding: 10px;
+            outline: 2px solid #000;
+            border: 5px solid #687495;
+            border-radius: 12px;
+        }
+        .btn {
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0 25px;
+	margin: 0 15px 15px 0;
+	outline: none;
+	border: 1px solid #fff;
+	border-radius: 50px;
+	height: 46px;
+	line-height: 46px;
+	font-size: 14px;
+	font-weight: 600;
+	text-decoration: none;
+	color: white;
+	background-color: #008000;
+	box-shadow: 0 4px 6px rgb(65 132 144 / 10%), 0 1px 3px rgb(0 0 0 / 8%);
+	cursor: pointer;
+	user-select: none;
+	appearance: none;
+	touch-action: manipulation;
+	vertical-align: top;
+	transition: box-shadow 0.2s;
+}
+.btn:focus-visible {
+	border: 1px solid #4c51f9;
+	outline: none;
+}
+.btn:hover {
+	transition: all 0.2s;
+	box-shadow: 0 7px 14px rgb(65 132 144 / 10%), 0 3px 6px rgb(0 0 0 / 8%);
+}
+.btn:active {
+	background-color: #808080;
+}
+           table {
+      width: 70%;
+      margin-bottom: 20px;
+      border: 1px solid white;
+      border-collapse: collapse;
+  }
+  table th {
+      font-weight: bold;
+      padding: 5px;
+      background: #687495;
+      border: 1px solid white;
+  }
+  table td {
+      border: 1px solid white;
+      padding: 5px;
+  }
+    </style>
+</head>
+<body>
+<h1 align="center" style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Список таблиц</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">№</th>
+      <th style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Название таблицы</th>
+    </tr>
+  </thead>
+  <tbody>
+  {%  for i in range(table_names|length)  %}
+    <tr>
+      {% if table_names[i] != 'room_type' and table_names[i] != 'employee_type' %}
+      <td scope="row" style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">{{i + 1}}</td>
+      <td style = "color: white; font-family: 'Arial', 'Verdana', sans-serif"><a href="/main/{{ table_names[i]}}">{{table_names[i]}}</a></td>
+      {% endif %}
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<h3 align = "center"><a href = "/" class="btn" style="background-color: #687495">Вернуться на главную страницу</a></h3>
+</body>
+</html>

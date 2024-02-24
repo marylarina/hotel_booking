@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+    <style>
+        body {
+            background-color: #212122;
+        }
+        a {
+            color: white;
+            font-family: 'Arial', 'Verdana', sans-serif;
+        }
+        p {
+            padding: 10px;
+            outline: 2px solid #000;
+            border: 5px solid #687495;
+            border-radius: 12px;
+        }
+        .btn {
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0 25px;
+	margin: 0 15px 15px 0;
+	outline: none;
+	border: 1px solid #fff;
+	border-radius: 50px;
+	height: 46px;
+	line-height: 46px;
+	font-size: 14px;
+	font-weight: 600;
+	text-decoration: none;
+	color: white;
+	background-color: #008000;
+	box-shadow: 0 4px 6px rgb(65 132 144 / 10%), 0 1px 3px rgb(0 0 0 / 8%);
+	cursor: pointer;
+	user-select: none;
+	appearance: none;
+	touch-action: manipulation;
+	vertical-align: top;
+	transition: box-shadow 0.2s;
+}
+.btn:focus-visible {
+	border: 1px solid #4c51f9;
+	outline: none;
+}
+.btn:hover {
+	transition: all 0.2s;
+	box-shadow: 0 7px 14px rgb(65 132 144 / 10%), 0 3px 6px rgb(0 0 0 / 8%);
+}
+.btn:active {
+	background-color: #808080;
+}
+    </style>
+</head>
+<body>
+
+<h1 align="center" style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Редактирование записи</h1>
+
+<div class="col-md-4 offset-md-4">
+    <div class="card card-body">
+    <form action="/main/{{name}}/update/{{id}}"  method="POST">
+        <table>
+        {% for index in range(1,database|length) %}
+            <tr>
+        <div class="form-group">
+            <td><label style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">{{column_names[index]}}: </label></td>
+            {% if name == 'employee' and index == database|length - 2 %}
+            <td><select name="job_name" >
+                <option value="{{database[index]}}" selected>{{database[index]}}</option>>
+                {% for row in employee_type %}
+                {% if row[0] != database[index] %}
+                <option value="{{row[0]}}">{{row[0]}}</option>
+                {% endif %}
+                {% endfor %}
+            </select></td>
+            {% else %}
+        <td><input style = "color: black; font-family: 'Arial', 'Verdana', sans-serif" type="text" name="{{column_names[index]}}" placeholder="{{column_names[index]}}" value="{{database[index]}}"
+                   class="form-control"></td>
+            {% endif %}
+        </div>
+            </tr>
+        {% endfor %}
+        </table>
+        <br>
+        <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block">
+              Обновить
+            </button>
+        </div>
+        <a href="/main/{{name}}" class="btn btn-outline-primary" style="background-color: #687495">Вернуться</a>
+    </form>
+    </div>
+</div>
+</body>
+</html>

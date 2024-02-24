@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit booking</title>
+  <style>
+        body {
+            background-color: #212122;
+        }
+        a {
+            color: white;
+            font-family: 'Arial', 'Verdana', sans-serif;
+        }
+        p {
+            padding: 10px;
+            outline: 2px solid #000;
+            border: 5px solid #687495;
+            border-radius: 12px;
+        }
+        table {
+	width: 70%;
+	margin-bottom: 20px;
+	border: 1px solid white;
+	border-collapse: collapse;
+}
+table th {
+	font-weight: bold;
+	padding: 5px;
+	background: #687495;
+	border: 1px solid white;
+}
+table td {
+	border: 1px solid white;
+	padding: 5px;
+}
+.btn {
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0 25px;
+	margin: 0 15px 15px 0;
+	outline: none;
+	border: 1px solid #fff;
+	border-radius: 50px;
+	height: 46px;
+	line-height: 46px;
+	font-size: 14px;
+	font-weight: 600;
+	text-decoration: none;
+	color: white;
+	background-color: #008000;
+	box-shadow: 0 4px 6px rgb(65 132 144 / 10%), 0 1px 3px rgb(0 0 0 / 8%);
+	cursor: pointer;
+	user-select: none;
+	appearance: none;
+	touch-action: manipulation;
+	vertical-align: top;
+	transition: box-shadow 0.2s;
+}
+.btn:focus-visible {
+	border: 1px solid #4c51f9;
+	outline: none;
+}
+.btn:hover {
+	transition: all 0.2s;
+	box-shadow: 0 7px 14px rgb(65 132 144 / 10%), 0 3px 6px rgb(0 0 0 / 8%);
+}
+.btn:active {
+	background-color: #808080;
+}
+    </style>
+</head>
+<body>
+<h1 align="center" style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Подтверждение брони</h1>
+{% if database[0] == 'error' %}
+<p align="center" style = "color: white; font-family: 'Arial', 'Verdana', sans-serif"> Проверьте правильность введенных данных
+   </p>
+<h3 align="center"><a href="/main/booking" class="btn btn-outline-primary">Вернуться к таблице</a></h3>
+<h3 align="center"><a href = "/main/booking/add_booking_render" class="btn btn-outline-primary">Вернуться к оформлению брони</a></h3>
+{% endif %}
+{% if database|length == 0 %}
+<p align="center" style = "color: white; font-family: 'Arial', 'Verdana', sans-serif"> К сожалению на указаннный период
+    времени и количество постояльцев нет свободных номеров. Попробуйте выбрать другое время или сократить людей в вашей
+    компании!
+   </p>
+<h3 align="center"><a href="/main/booking" class="btn btn-outline-primary">Вернуться к таблице</a></h3>
+<h3 align="center"><a href = "/main/booking/add_booking_render" class="btn btn-outline-primary">Вернуться к оформлению брони</a></h3>
+{% endif %}
+{% if database|length != 0 and database[0] != 'error' %}
+<p align="center" style = "color: white; font-family: 'Arial', 'Verdana', sans-serif"> Согласно указанным промежутку времени и количеству
+    постояльцев мы можем забронировать для вас следующие номера. Если вас устраивает этот вариант, нажмите кнопку подтвердить бронь!
+    Если нет, можете вернуться к оформлению заказа и поменять промежуток пребывания в отеле или количество человек в вашей компании!
+   </p>
+<br>
+<table class="table table-bordered" style = "border: white; border-collapse: collapse;">
+  <thead>
+        <tr class="table-info" style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">
+            {% for column_name in column_names %}
+            <th>{{ column_name }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+  <tbody>
+        {% for row in database %}
+        <tr>
+            {% for i in range(row|length) %}
+            <td style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">{{ row[i] }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+</table>
+{% endif %}
+<div class="col-md-4 offset-md-4">
+    <div class="card card-body">
+    <form action="/main/booking/submit" method="POST">
+<table>
+    <tr>
+        <div id="current_date_time_block" class="form-group">
+            <td><label style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Дата бронирования: </label></td>
+            <td><input style = "color: black; font-family: 'Arial', 'Verdana', sans-serif" type="date" name="booking_date" placeholder="booking_date" value="{{booking_date}}" class="form-control" readonly></td>
+        </div>
+            </tr>
+            <tr>
+        <div class="form-group">
+            <td><label style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Дата заселения: </label></td>
+            <td><input style = "color: black; font-family: 'Arial', 'Verdana', sans-serif" type="date" name="arrival_date" placeholder="arrival_date" value="{{arrival_date}}" class="form-control" readonly></td>
+        </div>
+            </tr>
+            <tr>
+        <div class="form-group">
+            <td><label style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Дата выселения: </label></td>
+            <td><input style = "color: black; font-family: 'Arial', 'Verdana', sans-serif" type="date" name="departure_date" placeholder="departure_date" value="{{departure_date}}" class="form-control" readonly></td>
+        </div>
+            </tr>
+            <tr>
+        <div class="form-group">
+            <td><label style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Количество взрослых постояльцев: </label></td>>
+            <td><input style = "color: black; font-family: 'Arial', 'Verdana', sans-serif" type="number" name="adult_number" placeholder="adult_number" value="{{adult_number}}" class="form-control" readonly></td>
+        </div>
+            </tr>
+            <tr>
+        <div class="form-group">
+            <td><label style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Количество детей: </label></td>
+            <td><input style = "color: black; font-family: 'Arial', 'Verdana', sans-serif" type="number" name="children_number" placeholder="children_number" value="{{children_number}}" class="form-control" readonly></td>
+        </div>
+            </tr>
+            <tr>
+        <div class="form-group">
+            <td><label style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Тип номера: </label></td>
+            <td><input style = "color: black; font-family: 'Arial', 'Verdana', sans-serif" type="text" name="room_type" placeholder="room_type" value="{{room_type}}" class="form-control" readonly></td>
+        </div>
+            </tr>
+            <tr>
+        <div class="form-group">
+            <td><label style = "color: white; font-family: 'Arial', 'Verdana', sans-serif">Клиент: </label></td>
+            <td><input style = "color: black; font-family: 'Arial', 'Verdana', sans-serif" type="number" name="client_id" placeholder="client_id" value="{{client_id}}" class="form-control"></td>
+        </div>
+            </tr>
+
+</table>
+        {% if database|length != 0 and database[0] != 'error' %}
+<div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block" >
+              Подтвердить бронь
+            </button>
+        </div>
+        <a href="/main/booking/add_booking_render" class="btn btn-outline-primary" style="background-color: #687495">Вернуться к бронированию</a>
+        <a href="/main/booking" class="btn btn-outline-primary" style="background-color: #687495">Вернуться к таблице booking</a>
+        {% endif %}
+        </form>
+    </div>
+</div>
+</body>
+</html>
